@@ -10,7 +10,9 @@ class GreyBoxShape extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15), color: defaultGreyColor),
-      child: child,
+      child: Padding(
+        padding: EdgeInsets.all(15),
+          child: child),
     );
   }
 }

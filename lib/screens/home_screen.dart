@@ -2,11 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_shop/itemview/category_item.dart';
 import 'package:e_shop/itemview/product_item.dart';
 import 'package:e_shop/itemview/slider_image_item.dart';
+import 'package:e_shop/screens/product_details.dart';
 import 'package:e_shop/styles/colors.dart';
 import 'package:e_shop/styles/text_style.dart';
 import 'package:e_shop/widgets/grey_box.dart';
-import 'package:e_shop/widgets/grey_icon_box.dart';
-import 'package:e_shop/widgets/main_icon_box.dart';
+import 'package:e_shop/widgets/icon_box.dart';
 import 'package:e_shop/widgets/main_shape.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,7 +59,7 @@ class _MyWidgetState extends State<HomeScreen> {
                         Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            MainCustomIconBox(icon: Icons.settings),
+                            CustomIconBox(containerColor: defaultMainColor, child: Icon(Icons.settings)),
                             Spacer(),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +77,7 @@ class _MyWidgetState extends State<HomeScreen> {
                               ],
                             ),
                             Spacer(),
-                            GreyCustomIconBox(icon: Icons.notifications_active)
+                            CustomIconBox(containerColor: defaultGreyColor, child: Icon(Icons.notifications))
                           ],
                         ),
                         SizedBox(
@@ -181,7 +181,9 @@ class _MyWidgetState extends State<HomeScreen> {
                               ),
                               itemCount: 10, // Total number of items
                               itemBuilder: (context, index) {
-                                return ItemProductView();
+                                return ItemProductView(onTap:(){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen()));
+                                });
                               },
                             ),
                           ),

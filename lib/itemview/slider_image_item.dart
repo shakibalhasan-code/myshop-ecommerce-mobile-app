@@ -26,7 +26,6 @@ class SliderImages extends StatelessWidget {
             placeholder: (context, url) => Center(child: CircularProgressIndicator()), // Placeholder image while loading
             imageUrl: url,
             fit: BoxFit.cover,
-
           ),
         ),
       ),

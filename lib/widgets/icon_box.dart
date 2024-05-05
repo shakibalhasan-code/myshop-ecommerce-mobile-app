@@ -1,23 +1,21 @@
 import 'package:e_shop/styles/colors.dart';
 import 'package:flutter/material.dart';
 
-class MainCustomIconBox extends StatelessWidget {
-  final IconData icon;
-  const MainCustomIconBox({super.key, required this.icon});
+class CustomIconBox extends StatelessWidget {
+  final Color containerColor;
+  final Widget child;
+  const CustomIconBox({super.key, required this.containerColor, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
-        color: defaultMainColor,
+        color: containerColor,
       ),
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Icon(
-          icon,
-          color: Colors.black,
-        ),
+        child: child,
       ),
     );
   }
