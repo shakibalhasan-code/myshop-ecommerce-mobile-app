@@ -1,9 +1,9 @@
 import 'package:e_shop/styles/colors.dart';
 import 'package:flutter/material.dart';
 
-class GreyBoxShape extends StatelessWidget {
+class GreyRoundedShape extends StatelessWidget {
   final Widget child;
-  const GreyBoxShape({super.key, required this.child});
+  const GreyRoundedShape({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

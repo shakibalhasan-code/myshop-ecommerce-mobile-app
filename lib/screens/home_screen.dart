@@ -5,8 +5,8 @@ import 'package:e_shop/itemview/slider_image_item.dart';
 import 'package:e_shop/screens/product_details.dart';
 import 'package:e_shop/styles/colors.dart';
 import 'package:e_shop/styles/text_style.dart';
-import 'package:e_shop/widgets/grey_box.dart';
-import 'package:e_shop/widgets/icon_box.dart';
+import 'package:e_shop/widgets/grey_rounded_shape.dart';
+import 'package:e_shop/widgets/icon_circle_shape.dart';
 import 'package:e_shop/widgets/main_shape.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +40,7 @@ class _MyWidgetState extends State<HomeScreen> {
     return Scaffold(
       body: Padding(
           padding: EdgeInsets.only(
-              top: devicePadding.top, bottom: devicePadding.bottom),
+              top: devicePadding.top+15, bottom: devicePadding.bottom),
           child: Container(
             color: defaultGreyColor,
             child: Column(
@@ -59,7 +59,9 @@ class _MyWidgetState extends State<HomeScreen> {
                         Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            CustomIconBox(containerColor: defaultMainColor, child: Icon(Icons.settings)),
+                            CustomIconCircleShape(containerColor: defaultMainColor, icon: Icons.dark_mode_rounded,onTap: (){
+
+                            },),
                             Spacer(),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +79,9 @@ class _MyWidgetState extends State<HomeScreen> {
                               ],
                             ),
                             Spacer(),
-                            CustomIconBox(containerColor: defaultGreyColor, child: Icon(Icons.notifications))
+                            CustomIconCircleShape(containerColor: defaultGreyColor, icon: Icons.notifications,onTap: (){
+
+                            },)
                           ],
                         ),
                         SizedBox(

@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_shop/styles/colors.dart';
 import 'package:e_shop/styles/text_style.dart';
-import 'package:e_shop/widgets/button.dart';
-import 'package:e_shop/widgets/icon_box.dart';
+import 'package:e_shop/widgets/icon_circle_shape.dart';
+import 'package:e_shop/widgets/icon_button.dart';
 import 'package:flutter/material.dart';
 
 class ItemProductView extends StatelessWidget {
@@ -66,16 +66,16 @@ class ItemProductView extends StatelessWidget {
                 style: productpriceH2.copyWith(fontSize: 14), // Adjust text size
               ),
               const SizedBox(height: 8),
-              const CustomButton(color: Colors.black, child: Row(
-                mainAxisAlignment: MainAxisAlignment.center
-                ,
-                children: [
-                  Icon(Icons.add_shopping_cart_rounded,color: Colors.white,size: 20,),
-                  SizedBox(width: 8,),
-                  Text('Add to cart',style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.bold
-                  ),)
-                ],
-              ))
+              const CustomIconButton(
+                color: Colors.black,
+                buttonHeight: 40,
+                icon: Icons.add_shopping_cart_rounded,
+                iconColor: Colors.white,
+                text: 'Add to cart',
+                textColor: Colors.white,
+                iconSize: 18,
+                textSize: 15,
+              )
             ],
           ),
         ),
