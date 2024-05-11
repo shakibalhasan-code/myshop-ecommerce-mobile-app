@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:e_shop/models/product_model.dart';
 import 'package:e_shop/styles/colors.dart';
 import 'package:e_shop/styles/text_style.dart';
 import 'package:e_shop/widgets/grey_rounded_shape.dart';
@@ -7,22 +9,18 @@ import 'package:e_shop/widgets/icon_button.dart';
 import 'package:e_shop/widgets/outline_border.dart';
 import 'package:flutter/material.dart';
 
-class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+class ProductDetailsScreen extends StatelessWidget {
+  final ProductModel productModel;
+  const ProductDetailsScreen({super.key, required this.productModel});
 
-  @override
-  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
-}
-
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    EdgeInsets padding = MediaQuery.of(context).padding;
+    final EdgeInsets padding = MediaQuery.of(context).padding;
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      body: Column(
-        children: [
-          Expanded(
+        backgroundColor: Colors.grey.shade100,
+        body: Column(
+          children: [
+            Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Padding(
@@ -36,24 +34,27 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         child: Stack(
                           children: [
                             Hero(
-                              tag: 'product-image',
+                              tag: '${productModel.id}',
                               child: CachedNetworkImage(
-                                imageUrl: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/c20afd60-b230-4815-bfd2-6768c875f6cd/air-force-1-07-shoes-0XGfD7.png',
-
+                                width: double.infinity,
+                                imageUrl: 'https://rukminim2.flixcart.com/image/850/1000/xif0q/shoe/j/u/w/7-1522-multi-shozie-multicolor-original-imagegdaad9g8mvs-bb.jpeg?q=90&crop=false',
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Center(child: CircularProgressIndicator()), // Placeholder image while loading
+                                errorWidget: (context, url, error) => Icon(Icons.error),
                               ),
                             ),
                             Positioned(
                               left: 15,
-                              top: 5,
+                              top: 15,
                               right: 15,
                               child: Row(
                                 children: [
-                                  CustomIconCircleShape(containerColor: Colors.white, icon: Icons.arrow_back_ios_new_rounded,onTap: (){
+                                  CustomIconCircleShape(containerColor: Colors.white.withOpacity(0.5), icon: Icons.arrow_back_ios_new_rounded,onTap: (){
                                     Navigator.pop(context);
                                   }, ),
                                   Spacer(
                                   ),
-                                  CustomIconCircleShape(containerColor: Colors.white, icon: Icons.ios_share_rounded,onTap: (){
+                                  CustomIconCircleShape(containerColor: Colors.white.withOpacity(0.5), icon: Icons.ios_share_rounded,onTap: (){
 
                                   },)
                                 ],
@@ -75,7 +76,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Classic Heather Gray Hoodie',style: h1text),
+                              Text(productModel.title ?? 'null',style: h1text),
+                              Text('${productModel.category?.name?? 'null'}',style: h3textBlue),
                               Divider(),
                               Row(
                                 children: [
@@ -109,7 +111,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(height: 20,),
                               GreyRoundedShape(child: Row(
                                 children: [
-                                  Text('\$99',style: productpriceH2,),
+                                  Text('\$${productModel.price}',style: productpriceH2,),
                                   SizedBox(width: 10,),
                                   Text('from \$5 per month'),
                                   Spacer(),
@@ -117,7 +119,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ],
                               )),
                               SizedBox(height: 15,),
-                              Text('Step up your game with Nike shoes, the epitome of style and performance. Crafted with precision and innovation, Nike shoes boast unparalleled comfort and durability. From the court to the streets, Nike\'s iconic designs make a statement wherever you go. Elevate your sneaker collection with the perfect blend of athleticism and fashion.'),
+                              Text(productModel.description!),
                               SizedBox(height: 15,),
 
 
@@ -129,25 +131,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                 ),
               ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 15,right: 15,bottom:padding.bottom,top: 5 ),
-            child: Container(
-              width: double.infinity,
-              child: CustomIconButton(
-                color: defaultMainColor,
-                icon: Icons.add_shopping_cart_rounded,
-                text: 'Add to cart',
-                textColor: Colors.black,
-                iconColor: Colors.black,
-                buttonHeight: 50,
-                iconSize: 20,
-                textSize: 18,
-              )
             ),
-          )
-        ],
-      )
+            Padding(
+              padding: EdgeInsets.only(left: 15,right: 15,bottom:padding.bottom+10,top: 5 ),
+              child: Container(
+                  width: double.infinity,
+                  child: CustomIconButton(
+                    color: defaultMainColor,
+                    icon: Icons.add_shopping_cart_rounded,
+                    text: 'Add to cart',
+                    textColor: Colors.black,
+                    iconColor: Colors.black,
+                    buttonHeight: 50,
+                    iconSize: 20,
+                    textSize: 18,
+                  )
+              ),
+            )
+          ],
+        )
     );
   }
 }

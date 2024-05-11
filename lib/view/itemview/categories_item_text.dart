@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_shop/models/product_model.dart';
 import 'package:e_shop/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesItemText extends StatelessWidget {
-  final String imageUrl,categoriesText;
-  const CategoriesItemText({super.key, required this.imageUrl, required this.categoriesText});
+  final Category category;
+  const CategoriesItemText({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +27,17 @@ class CategoriesItemText extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
-                    imageUrl: imageUrl,
+                    imageUrl: category.image.toString(),
                     fit: BoxFit.cover,
-                    placeholder: (context,url)=>const Center( child: CircularProgressIndicator())
+                    placeholder: (context,url)=>const Center( child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 5,),
-            Text(categoriesText,style: productpriceH2,textAlign: TextAlign.center,)
+            Text(category.name.toString(),style: productpriceH2,textAlign: TextAlign.center,)
           ],
         ),
       )

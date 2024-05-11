@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_shop/models/product_model.dart';
 import 'package:e_shop/styles/colors.dart';
 import 'package:e_shop/styles/text_style.dart';
 import 'package:e_shop/widgets/icon_circle_shape.dart';
@@ -7,7 +8,9 @@ import 'package:flutter/material.dart';
 
 class ItemProductView extends StatelessWidget {
   final VoidCallback onTap;
-  const ItemProductView({Key? key, required this.onTap});
+  final ProductModel productModel;
+
+  const ItemProductView({Key? key, required this.onTap, required this.productModel});
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +34,12 @@ class ItemProductView extends StatelessWidget {
                     children: [
                       Positioned(
                         child: Hero(
-                          tag: 'product-image',
+                          tag: '${productModel.id}',
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: CachedNetworkImage(
                               width: double.infinity,
-                              imageUrl: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/c20afd60-b230-4815-bfd2-6768c875f6cd/air-force-1-07-shoes-0XGfD7.png',
+                              imageUrl: 'https://rukminim2.flixcart.com/image/850/1000/xif0q/shoe/j/u/w/7-1522-multi-shozie-multicolor-original-imagegdaad9g8mvs-bb.jpeg?q=90&crop=false',
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Center(child: CircularProgressIndicator()), // Placeholder image while loading
                               errorWidget: (context, url, error) => Icon(Icons.error),
@@ -55,14 +58,14 @@ class ItemProductView extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Classic Heather Gray Hoodie',
+                productModel.title ?? 'Error to get data',
                 style: productTitleH2.copyWith(fontSize: 16), // Adjust text size
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 4),
               Text(
-                '\$90.00',
+                '\$${productModel.price}',
                 style: productpriceH2.copyWith(fontSize: 14), // Adjust text size
               ),
               const SizedBox(height: 8),

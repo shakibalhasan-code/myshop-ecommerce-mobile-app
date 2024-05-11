@@ -1,5 +1,4 @@
-import 'package:e_shop/screens/home_screen.dart';
-import 'package:e_shop/screens/tab_screen.dart';
+import 'package:e_shop/view/screens/tab_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_shop/models/product_model.dart';
 import 'package:e_shop/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItemView extends StatelessWidget {
-  final String imageUrl;
-  const CategoryItemView({super.key, required this.imageUrl});
+  final Category category;
+  const CategoryItemView({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +18,14 @@ class CategoryItemView extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           color: defaultGreyColor
         ),
-        child: Padding(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            children: [
-              CachedNetworkImage(
-                  imageUrl: imageUrl,
-                placeholder: (context, url) => Center(child: CircularProgressIndicator()), // Placeholder image while loading
-
-              )
-            ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: CachedNetworkImage(
+            width: double.infinity,
+            imageUrl: '${category.image}',
+            fit: BoxFit.cover,
+            placeholder: (context, url) => Center(child: CircularProgressIndicator()), // Placeholder image while loading
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
       ),

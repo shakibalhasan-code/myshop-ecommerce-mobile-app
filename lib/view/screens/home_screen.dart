@@ -1,8 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:e_shop/itemview/category_item.dart';
-import 'package:e_shop/itemview/product_item.dart';
-import 'package:e_shop/itemview/slider_image_item.dart';
-import 'package:e_shop/screens/product_details.dart';
+import 'package:e_shop/view/itemview/product_item.dart';
+import 'package:e_shop/view/itemview/slider_image_item.dart';
+import 'package:e_shop/models/product_model.dart';
+import 'package:e_shop/view/screens/product_details.dart';
+import 'package:e_shop/core/services/api_services.dart';
 import 'package:e_shop/styles/colors.dart';
 import 'package:e_shop/styles/text_style.dart';
 import 'package:e_shop/widgets/grey_rounded_shape.dart';
@@ -10,6 +11,8 @@ import 'package:e_shop/widgets/icon_circle_shape.dart';
 import 'package:e_shop/widgets/main_shape.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../itemview/category_item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,17 +29,18 @@ class _MyWidgetState extends State<HomeScreen> {
     'https://i.postimg.cc/FKsdnrF5/441060592-844937050994763-339628.png',
   ];
 
-  List<String> categoriesIcon = [
-    'https://cdn-icons-png.freepik.com/256/5521/5521112.png?semt=ais_hybrid',
-    'https://cdn-icons-png.freepik.com/256/2742/2742674.png?semt=ais_hybrid',
-    'https://cdn-icons-png.flaticon.com/512/5258/5258076.png',
-    'https://cdn-icons-png.flaticon.com/512/428/428001.png',
-  ];
+  // List<String> categoriesIcon = [
+  //   'https://cdn-icons-png.freepik.com/256/5521/5521112.png?semt=ais_hybrid',
+  //   'https://cdn-icons-png.freepik.com/256/2742/2742674.png?semt=ais_hybrid',
+  //   'https://cdn-icons-png.flaticon.com/512/5258/5258076.png',
+  //   'https://cdn-icons-png.flaticon.com/512/428/428001.png',
+  // ];
 
 
   @override
   Widget build(BuildContext context) {
     final EdgeInsets devicePadding = MediaQuery.of(context).padding;
+    final _apiServices = ApiServices();
     return Scaffold(
       body: Padding(
           padding: EdgeInsets.only(
@@ -142,18 +146,27 @@ class _MyWidgetState extends State<HomeScreen> {
                         ),
                         SizedBox(
                           height: 80, // Set a fixed height for the ListView
-                          child: ListView.builder(
-                            itemCount: categoriesIcon.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: CategoryItemView(
-                                  imageUrl: categoriesIcon[index],
-                                ),
-                              );
-                            },
-                          ),
+                          child: FutureBuilder(
+                            builder: (context,snapshot){
+                              if(snapshot.hasData){
+                                List<Category> _categories = snapshot.data ?? [];
+                                return ListView.builder(
+                                  itemCount: 5,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: CategoryItemView(
+                                        category: _categories[index],
+                                      ),
+                                    );
+                                  },
+                                );
+                              }else{
+                                return Center(child: Text('no categories found..!'),);
+                              }
+                            }, future: _apiServices.getCategory(),
+                          )
                         ),
 
                         const SizedBox(height: 10,),
@@ -173,24 +186,51 @@ class _MyWidgetState extends State<HomeScreen> {
                           ),
                         ),
                         Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 10,right: 10),
-                            child: GridView.builder(
-                              padding: EdgeInsets.zero,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2, // Number of columns
-                                mainAxisSpacing: 5, // Spacing between rows
-                                crossAxisSpacing: 5, // Spacing between columns
-                                childAspectRatio: 0.7, // Aspect ratio of the items (width / height) adjust this ratio as per your need
-                              ),
-                              itemCount: 10, // Total number of items
-                              itemBuilder: (context, index) {
-                                return ItemProductView(onTap:(){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailsScreen()));
-                                });
-                              },
-                            ),
+                          child: FutureBuilder(
+                            future: _apiServices.getProduct(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return Center(
+                                  child: CircularProgressIndicator(), // Show a loading indicator while waiting for data
+                                );
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                  child: Text('Error: ${snapshot.error}'), // Show an error message if there's an error
+                                );
+                              } else if (snapshot.hasData) {
+                                List<ProductModel> _productModel = snapshot.data ?? [];
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: GridView.builder(
+                                    padding: EdgeInsets.zero,
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2, // Number of columns
+                                      mainAxisSpacing: 5, // Spacing between rows
+                                      crossAxisSpacing: 5, // Spacing between columns
+                                      childAspectRatio: 0.7, // Aspect ratio of the items (width / height) adjust this ratio as per your need
+                                    ),
+                                    itemCount: _productModel.length, // Total number of items based on the available data
+                                    itemBuilder: (context, index) {
+                                      return ItemProductView(
+                                        productModel: _productModel[index],
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => ProductDetailsScreen(productModel: _productModel[index],)),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                );
+                              } else {
+                                return Center(
+                                  child: Text('No data available'), // Show a message if there's no data
+                                );
+                              }
+                            },
                           ),
+
                         )
 
                       ],

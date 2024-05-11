@@ -1,10 +1,10 @@
-import 'package:e_shop/screens/cart_screen.dart';
-import 'package:e_shop/screens/categories_screen.dart';
-import 'package:e_shop/screens/home_screen.dart';
-import 'package:e_shop/screens/profile_screen.dart';
+import 'package:e_shop/view/screens/cart_screen.dart';
+import 'package:e_shop/view/screens/categories_screen.dart';
+import 'package:e_shop/view/screens/profile_screen.dart';
 import 'package:e_shop/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'home_screen.dart';
 
 class TabScreen extends StatefulWidget {
   const TabScreen({super.key});
