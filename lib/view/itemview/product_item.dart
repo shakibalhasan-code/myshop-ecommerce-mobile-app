@@ -39,6 +39,7 @@ class ItemProductView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             child: CachedNetworkImage(
                               width: double.infinity,
+                              //must be remove the imageUrl and use productModel.image]
                               imageUrl: 'https://rukminim2.flixcart.com/image/850/1000/xif0q/shoe/j/u/w/7-1522-multi-shozie-multicolor-original-imagegdaad9g8mvs-bb.jpeg?q=90&crop=false',
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Center(child: CircularProgressIndicator()), // Placeholder image while loading
