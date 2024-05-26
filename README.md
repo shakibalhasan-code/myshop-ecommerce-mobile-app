@@ -1,6 +1,6 @@
 # e_shop
 
-A new Flutter project.
+A new Flutter project. used public rest api, for auth used firebase auth
 
 ## Getting Started
 
